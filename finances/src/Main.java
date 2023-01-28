@@ -51,7 +51,6 @@ public class Main {
         while(file.hasNext()){
             String line = file.nextLine();
             while(line.equals("Savings")){
-
             }
         }
     }

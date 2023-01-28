@@ -21,21 +21,38 @@ public class Main {
 
     public static void main(String[] args) {
         Main main = new Main();
-        System.out.println("Hello Thomas");
+        System.out.println("Hello Tom");
+        main.loadLists();
         int choice = main.menu();
-        switch (choice){
-            case 1:
-                main.addMoney();
-                break;
-            case 2:
-                main.spendingTotal();
-                break;
-            case 3:
-                main.savingTotal();
-                break;
-            case 4:
-                main.spend();
-                break;
+        while (choice != -1){
+            switch (choice){
+                case 1:
+                    main.addMoney();
+                    break;
+                case 2:
+                    main.spendingTotal();
+                    break;
+                case 3:
+                    main.savingTotal();
+                    break;
+                case 4:
+                    main.spend();
+                    break;
+            }
+            choice = main.menu();
+        }
+        System.out.println("Bye Tom");
+    }
+
+    /**
+     *
+     */
+    private void loadLists() {
+        while(file.hasNext()){
+            String line = file.nextLine();
+            while(line.equals("Savings")){
+
+            }
         }
     }
 
@@ -93,23 +110,29 @@ public class Main {
 
     /**
      * @return Return integer from 1 to 4 of the user's choice from the menu
+     * If the user picked the exit option return -1 instead.
      */
     private int menu() {
         System.out.println("Would you like to: \n" +
                 "1) Add money to the account?\n" +
                 "2) See total available spending money?\n" +
                 "3) See savings money\n" +
-                "4) Spend money");
+                "4) Spend money\n" +
+                "5) Exit");
         int choice = scan.nextInt();
-        while(choice < 1 || choice > 4){
+        while(choice < 1 || choice > 5){
             System.out.println("Incorrect value for choice entered.");
             //
             System.out.println("Would you like to: \n" +
                     "1) Add money to the account?\n" +
                     "2) See total available spending money?\n" +
                     "3) See savings money\n" +
-                    "4) Spend money");
+                    "4) Spend money\n" +
+                    "5) Exit");
             choice = scan.nextInt();
+        }
+        if (choice == 5){ //Change choice to -1 for exit condition
+            choice = -1;
         }
         return choice;
     }

@@ -45,6 +45,9 @@ public class Main {
      * @param file to read data from
      */
     private void readFile(Scanner file) {
+        if(file.hasNextLine() == false){
+            return;
+        }
         String line = file.nextLine();
         if(line.equals("Earnings")){
             line = file.nextLine();
@@ -143,7 +146,7 @@ public class Main {
         System.out.println("Enter amount to subtract: ");
         double amount = scan.nextDouble();
         while(amount < 0 || amount > 1000000){
-            System.out.println("Amount entered is not accepted. Reenter value");
+            System.out.println("Amount entered is not accepted. Reenter value.");
             amount = scan.nextDouble();
         }
         expenses.add(amount);
@@ -240,7 +243,6 @@ public class Main {
         }
         return choice;
     }
-
 
     /**
      * @return Expenses list

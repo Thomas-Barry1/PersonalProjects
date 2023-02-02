@@ -1,5 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -40,11 +42,11 @@ public class Main {
      * Adds to the earnings, savings, and spending lists from the doubles it
      * gets from the files. Also adds to the variables at the top.
      *
-     * @param file
+     * @param file to read data from
      */
     private void readFile(Scanner file) {
         String line = file.nextLine();
-        if(file.equals("Earnings")){
+        if(line.equals("Earnings")){
             line = file.nextLine();
             while(!line.equals("Savings")){
                 Double value = Double.parseDouble(line);
@@ -57,7 +59,7 @@ public class Main {
             while(!line.equals("Expenses")){
                 Double value = Double.parseDouble(line);
                 savings.add(value*savingsRate);
-                saved += value*savingsRate;
+                saved += value;
                 line = file.nextLine();
             }
             while(file.hasNextLine()){
@@ -97,11 +99,30 @@ public class Main {
         System.out.println("Bye " + getName());
     }
 
+    /**
+     * Saves data in the global lists to the data file.
+     * Splits into "Earnings", "Savings", and "Expenses" sections.
+     */
     //TODO
     private void saveToFile() {
-
-        for (:) {
-
+        try{
+            FileWriter data = new FileWriter("/Users/thomaslb/IdeaProjects/Personal Projects/finances/src/data.txt");
+            data.write("Earnings\n");
+            for (Double earn : getEarnings()) {
+                data.write(earn+"\n");
+            }
+            data.write("Savings\n");
+            for (Double earn : getSavings()) {
+                data.write(earn+"\n");
+            }
+            data.write("Expenses\n");
+            for (Double earn : getExpenses()) {
+                data.write(earn+"\n");
+            }
+            data.close();
+        }catch (IOException e){
+            System.out.println(e);
+            e.printStackTrace();
         }
     }
 

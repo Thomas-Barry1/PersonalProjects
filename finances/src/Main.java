@@ -7,7 +7,12 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    private Scanner file;
+
+    //Holds the file we're reading into
+    private File file;
+
+    //Holds the filePath of the file we're using
+    private String filePath = "/Users/thomaslb/IdeaProjects/Personal Projects/finances/src/data.txt";
     private final Scanner scan = new Scanner(System.in);
 
     private String name; //Name of account holder
@@ -22,20 +27,27 @@ public class Main {
     private double amountEarned = 0; //Keep track of total earnings
 
     final private double savingsRate = .2; //Determines percentage of earnings to go in savings
+    private double maxAmount = 1000000; //MaxAmount to add
 
     /**
      * Constructor for class. Reads in any input from file to the lists and sets name.
      */
     public Main(){
+        file = new File(filePath);
         try {
-            file = new Scanner(new File("/Users/thomaslb/IdeaProjects/Personal Projects/finances/src/data.txt"));
-        } catch (FileNotFoundException e) {
+            file.createNewFile(); //Creates new file if it doesn't already exit
+            readFile(file);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        readFile(file);
         System.out.println("Enter name");
         this.name = scan.nextLine();
         System.out.println("Hello " + name);
+    }
+
+    public static void main(String[] args) {
+        Main main = new Main();
+        main.start();
     }
 
     /**
@@ -44,29 +56,30 @@ public class Main {
      *
      * @param file to read data from
      */
-    private void readFile(Scanner file) {
-        if(file.hasNextLine() == false){
+    private void readFile(File file) throws FileNotFoundException {
+        Scanner fileScan = new Scanner(file);
+        if(fileScan.hasNextLine() == false){
             return;
         }
-        String line = file.nextLine();
+        String line = fileScan.nextLine();
         if(line.equals("Earnings")){
-            line = file.nextLine();
+            line = fileScan.nextLine();
             while(!line.equals("Savings")){
                 Double value = Double.parseDouble(line);
                 earnings.add(value);
                 amountEarned+= value;
                 toSpend += value*(1-savingsRate);
-                line = file.nextLine();
+                line = fileScan.nextLine();
             }
-            line = file.nextLine();
+            line = fileScan.nextLine();
             while(!line.equals("Expenses")){
                 Double value = Double.parseDouble(line);
-                savings.add(value*savingsRate);
+                savings.add(value);
                 saved += value;
-                line = file.nextLine();
+                line = fileScan.nextLine();
             }
-            while(file.hasNextLine()){
-                line = file.nextLine();
+            while(fileScan.hasNextLine()){
+                line = fileScan.nextLine();
                 Double value = Double.parseDouble(line);
                 toSpend -= value;
                 expenses.add(value);
@@ -74,12 +87,7 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) {
-        Main main = new Main();
-        main.start();
-    }
-
-    private void start() {
+    public void start() {
         int choice = menu();
         while (choice != -1){
             switch (choice){
@@ -87,10 +95,10 @@ public class Main {
                     addMoney();
                     break;
                 case 2:
-                    System.out.println(spendingTotal());
+                    System.out.println("$" + String.format("%.2f", getSpendingTotal()));
                     break;
                 case 3:
-                    System.out.println(savingTotal());
+                    System.out.println("$" + String.format("%.2f", getSavingTotal()));
                     break;
                 case 4:
                     spend();
@@ -106,10 +114,9 @@ public class Main {
      * Saves data in the global lists to the data file.
      * Splits into "Earnings", "Savings", and "Expenses" sections.
      */
-    //TODO
     private void saveToFile() {
         try{
-            FileWriter data = new FileWriter("/Users/thomaslb/IdeaProjects/Personal Projects/finances/src/data.txt");
+            FileWriter data = new FileWriter(file);
             data.write("Earnings\n");
             for (Double earn : getEarnings()) {
                 data.write(earn+"\n");
@@ -134,7 +141,7 @@ public class Main {
      *
      * @return Name global variable
      */
-    private String getName() {
+    public String getName() {
         return name;
     }
 
@@ -142,10 +149,10 @@ public class Main {
     /**
      * Remove money available to spend. Add to expenses
      */
-    private void spend() {
+    public void spend() {
         System.out.println("Enter amount to subtract: ");
         double amount = scan.nextDouble();
-        while(amount < 0 || amount > 1000000){
+        while(amount < 0 || amount > maxAmount){
             System.out.println("Amount entered is not accepted. Reenter value.");
             amount = scan.nextDouble();
         }
@@ -156,7 +163,7 @@ public class Main {
     /**
      * @return Total amount in savings
      */
-    private double savingTotal() {
+    public double getSavingTotal() {
         return saved;
     }
 
@@ -164,7 +171,7 @@ public class Main {
     /**
      * @return Total amount of money available to spend
      */
-    private double spendingTotal() {
+    private double getSpendingTotal() {
         return toSpend;
     }
 
@@ -172,13 +179,32 @@ public class Main {
     /**
      * Add money to earnings
      * and take percentage off to put in spending and savings.
+     *
+     * @calls addMoney
      */
-    private void addMoney() {
+    public void addMoney() {
         System.out.println("Enter amount to add: ");
         double amount = scan.nextDouble();
+
+        //Error checking
         while(amount < 0 || amount > 1000000){
             System.out.println("Amount entered is not accepted. Reenter value");
             amount = scan.nextDouble();
+        }
+
+        addMoney(amount);
+    }
+
+    /**
+     * Adds amount to earnings, amount earned, savings, and toSpend
+     *
+     *
+     * @throws IllegalArgumentException
+     * @param amount to add
+     */
+    private void addMoney(double amount) {
+        if(amount < 0 || amount > maxAmount){
+
         }
         earnings.add(amount);
         amountEarned+=(amount);
@@ -235,6 +261,7 @@ public class Main {
                 choice = Integer.parseInt(scan.next());
                 scan.nextLine();
             }catch (Exception e){
+                System.out.println("Not correct");
                 choice = -1; //Sets value to be incorrect value for choice for error checking in loop
             }
         }

@@ -1,16 +1,33 @@
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.InputStream;
-
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.List;
 
 class MainTest {
 
+    String testFile = "testFile.txt";
+
+    /**
+     * Test main constructor
+     */
     @org.junit.jupiter.api.Test
     void testMain() {
 //        InputStream sysInBackup = System.in; // backup System.in to restore it later
 //        ByteArrayInputStream in = new ByteArrayInputStream("My string".getBytes());
 //        System.setIn(in);
 
+        Main main = new Main(testFile);
+        List<Double> var = main.getSavings();
+        //testFile.delete();
+    }
+
+    /**
+     * @param testInput
+     * Helper function for
+     */
+    public void setTestFile(String testInput) {
+        File testFile = new File(this.testFile);
+        testFile.delete();
     }
 
     @org.junit.jupiter.api.Test

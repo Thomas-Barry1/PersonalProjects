@@ -80,7 +80,7 @@ public class Main {
      *
      *  Sets up menu of the GUI
      */
-    public void menuGui(JTextField inputC, JLabel outputC) {
+    public void menuGui(JTextField inputC, JTextArea outputC) {
 
         int choice = -2;
         if(this.name.equals(" ")) { //Set name and ask for choice
@@ -130,7 +130,7 @@ public class Main {
      * If the user picked the exit option return -1 instead.
      * If the user entered a wrong value, return -2
      */
-    private int getChoice(JTextField inputC, JLabel outputC) {
+    private int getChoice(JTextField inputC, JTextArea outputC) {
         int choice = 0;
         int exitInt = 5; //Variable corresponding to exit/final choice.
         try{
@@ -156,7 +156,7 @@ public class Main {
      *               1. Ask for amount to subtract
      *               2. Pass amount received from input to method addMoney
      */
-    private void spend(JTextField inputC, JLabel outputC) {
+    private void spend(JTextField inputC, JTextArea outputC) {
         switch(buttonState){
             case "askInp":
                 outputC.setText("Enter amount to subtract: ");
@@ -186,7 +186,7 @@ public class Main {
      *               1. Ask for amount to add
      *               2. Pass amount received from input to method addMoney
      */
-    private void addMoney(JTextField inputC, JLabel outputC) {
+    private void addMoney(JTextField inputC, JTextArea outputC) {
         switch(buttonState){
             case "askInp":
                 outputC.setText("Enter amount to add: ");

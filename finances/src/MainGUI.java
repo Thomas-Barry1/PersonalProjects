@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
+
 public class MainGUI extends JFrame {
     Main main;
 
@@ -18,7 +19,7 @@ public class MainGUI extends JFrame {
     }
 
     /**
-     * Start method to run this GUI program.
+     * Start method to run this GUI program. Add all the GUI elements
      */
     public void start() {
         //Set up frame
@@ -36,23 +37,30 @@ public class MainGUI extends JFrame {
         //Add input field and submit button
         JTextField jTextField = new JTextField(10);
         JButton button1 = new JButton("Enter");
-        JLabel jLabel = new JLabel("Please Enter Your Name!");
+        JTextArea jTextArea2 = new JTextArea("Please Enter Your Name!");
 
         //Set up button
         button1.addActionListener(e -> {
             //Set input and output components for this menuGUI method
-            main.menuGui(jTextField, jLabel);
+            main.menuGui(jTextField, jTextArea2);
         });
 
-        //Add to a panel
-        JPanel jTextP = new JPanel();
+        //Main panel for input
+        JPanel jTextP = new JPanel(new FlowLayout());
+        jTextArea2.setEditable(false);
+        jTextArea2.setLineWrap(true);
+        jTextArea2.setWrapStyleWord(true);
+        //jTextArea2.setPreferredSize(new Dimension(200,20));
+
+        //Add panel and label to main panel for input
+        //jTextP.add(jTextPSub);
         jTextP.add(jTextField);
         jTextP.add(button1);
-        jTextP.add(jLabel);
+        jTextP.add(jTextArea2);
 
         //Add JComponents and display frame
         jP.add(textArea, BorderLayout.NORTH);
-        jP.add(jTextP, BorderLayout.CENTER);
+        jP.add(jTextP, FlowLayout.CENTER);
         this.getContentPane().add(BorderLayout.CENTER, jP);
         this.setVisible(true);
     }

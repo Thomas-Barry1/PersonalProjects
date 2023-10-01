@@ -9,10 +9,10 @@ public class FileIO {
     //Holds the file we're reading from and writing to
     private File file;
 
-    Main main; //The main file where we can add information about the variables.
+    DataHandler dataHandler; //The dataHandler file where we can add information about the variables.
 
-    public FileIO(String filePath, Main main) {
-        this.main = main;
+    public FileIO(String filePath, DataHandler dataHandler) {
+        this.dataHandler = dataHandler;
         file = new File(filePath);
         try {
             file.createNewFile(); //Creates new file if it doesn't already exit
@@ -40,9 +40,9 @@ public class FileIO {
             Double finalEarnedValue = 0.0;
             while(!line.equals("Savings")){
                 Double value = Double.parseDouble(line);
-                main.getEarnings().add(value);
-                main.setAmountEarned(main.getAmountEarned()+value);
-                //main.toSpend += value*(1-main.savingsRate);
+                dataHandler.getEarnings().add(value);
+                dataHandler.setAmountEarned(dataHandler.getAmountEarned()+value);
+                //dataHandler.toSpend += value*(1-dataHandler.savingsRate);
                 finalEarnedValue += value;
                 line = fileScan.nextLine();
             }
@@ -50,8 +50,8 @@ public class FileIO {
             //Reading through savings
             while(!line.equals("Expenses")){
                 Double value = Double.parseDouble(line);
-                main.getSavings().add(value);
-                main.setSaved(main.getSavingTotal()+value);
+                dataHandler.getSavings().add(value);
+                dataHandler.setSaved(dataHandler.getSavingTotal()+value);
                 finalEarnedValue -= value;
                 line = fileScan.nextLine();
             }
@@ -59,10 +59,10 @@ public class FileIO {
             while(fileScan.hasNextLine()){
                 line = fileScan.nextLine();
                 Double value = Double.parseDouble(line);
-                main.setSpendingTotal(main.getSpendingTotal() - value);
-                main.getExpenses().add(value);
+                dataHandler.setSpendingTotal(dataHandler.getSpendingTotal() - value);
+                dataHandler.getExpenses().add(value);
             }
-            main.setSpendingTotal(main.getSpendingTotal() + finalEarnedValue);
+            dataHandler.setSpendingTotal(dataHandler.getSpendingTotal() + finalEarnedValue);
         }
     }
 
@@ -74,15 +74,15 @@ public class FileIO {
         try{
             FileWriter data = new FileWriter(file);
             data.write("Earnings\n");
-            for (Double earn : main.getEarnings()) {
+            for (Double earn : dataHandler.getEarnings()) {
                 data.write(earn+"\n");
             }
             data.write("Savings\n");
-            for (Double earn : main.getSavings()) {
+            for (Double earn : dataHandler.getSavings()) {
                 data.write(earn+"\n");
             }
             data.write("Expenses\n");
-            for (Double earn : main.getExpenses()) {
+            for (Double earn : dataHandler.getExpenses()) {
                 data.write(earn+"\n");
             }
             data.close();

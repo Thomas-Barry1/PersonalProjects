@@ -3,12 +3,12 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.List;
 
-class MainTest {
+class DataHandlerTest {
 
     String testFile = "testFile.txt";
 
     /**
-     * Test main constructor
+     * Test dataHandler constructor
      */
     @org.junit.jupiter.api.Test
     void testMain() {
@@ -16,8 +16,8 @@ class MainTest {
 //        ByteArrayInputStream in = new ByteArrayInputStream("My string".getBytes());
 //        System.setIn(in);
 
-        Main main = new Main(testFile);
-        List<Double> var = main.getSavings();
+        DataHandler dataHandler = new DataHandler(testFile);
+        List<Double> var = dataHandler.getSavings();
         //testFile.delete();
     }
 
@@ -41,8 +41,8 @@ class MainTest {
                     """).getBytes());
             System.setIn(in);
 
-            Main main = new Main();
-            main.start();
+            DataHandler dataHandler = new DataHandler();
+            dataHandler.start();
             in.read("5\n".getBytes());
         } catch (Exception e) {
             throw new RuntimeException(e);

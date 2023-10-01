@@ -3,19 +3,11 @@ import java.awt.*;
 
 
 public class MainGUI extends JFrame {
-    Main main;
-
-    public static void main(String[] args) {
-//        Main main = new Main();
-//        main.start();
-
-        MainGUI mainG = new MainGUI("Finance Tool");
-        mainG.start();
-    }
+    DataHandler dataHandler;
 
     public MainGUI(String title) {
         super(title);
-        main = new Main();
+        dataHandler = new DataHandler();
     }
 
     /**
@@ -29,7 +21,7 @@ public class MainGUI extends JFrame {
 
         //Create panel to add components and then add textArea with menu
         JPanel jP = new JPanel(new BorderLayout());
-        JTextArea textArea = new JTextArea(main.menuText());
+        JTextArea textArea = new JTextArea(dataHandler.menuText());
         textArea.setEditable(false);
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
@@ -42,17 +34,17 @@ public class MainGUI extends JFrame {
         //Set up button
         button1.addActionListener(e -> {
             //Set input and output components for this menuGUI method
-            main.menuGui(jTextField, jTextArea2);
+            dataHandler.menuGui(jTextField, jTextArea2);
         });
 
-        //Main panel for input
+        //DataHandler panel for input
         JPanel jTextP = new JPanel(new FlowLayout());
         jTextArea2.setEditable(false);
         jTextArea2.setLineWrap(true);
         jTextArea2.setWrapStyleWord(true);
         //jTextArea2.setPreferredSize(new Dimension(200,20));
 
-        //Add panel and label to main panel for input
+        //Add panel and label to dataHandler panel for input
         //jTextP.add(jTextPSub);
         jTextP.add(jTextField);
         jTextP.add(button1);
